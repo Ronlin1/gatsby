@@ -5,6 +5,7 @@ export enum ScriptStrategy {
   preHydrate = `pre-hydrate`,
   postHydrate = `post-hydrate`,
   idle = `idle`,
+  experimentalPartytown = `experimental-partytown`,
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -69,9 +70,16 @@ export function Script(props: ScriptProps): ReactElement {
     }
   }, [])
 
-  if (strategy === ScriptStrategy.preHydrate) {
+  if (
+    strategy === ScriptStrategy.preHydrate ||
+    strategy === ScriptStrategy.experimentalPartytown
+  ) {
     const inlineScript = resolveInlineScript(props)
     const attributes = resolveAttributes(props)
+
+    if (strategy === ScriptStrategy.experimentalPartytown) {
+      attributes.type = `text/partytown`
+    }
 
     if (inlineScript) {
       return (

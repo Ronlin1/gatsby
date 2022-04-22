@@ -61,6 +61,14 @@ function ScriptsWithSourcesPage() {
         strategy={ScriptStrategy.idle}
         onError={() => onError(ScriptStrategy.idle)}
       />
+
+      <Script strategy={ScriptStrategy.experimentalPartytown}>
+        {`console.log('It is party time!')`}
+      </Script>
+      <Script
+        src="https://unpkg.com/react@18/umd/react.development.js"
+        strategy={ScriptStrategy.experimentalPartytown}
+      />
     </main>
   )
 }

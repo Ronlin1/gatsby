@@ -26,6 +26,8 @@ import { shouldGenerateEngines } from "./engines-helpers"
 import { major } from "semver"
 import { ROUTES_DIRECTORY } from "../constants"
 const { BabelConfigItemsCacheInvalidatorPlugin } = require(`./babel-loader`)
+const partytown = require(`@builder.io/partytown/utils`)
+const CopyPlugin = require(`copy-webpack-plugin`)
 
 const FRAMEWORK_BUNDLES = [`react`, `react-dom`, `scheduler`, `prop-types`]
 
@@ -239,6 +241,14 @@ module.exports = async (
       new BabelConfigItemsCacheInvalidatorPlugin(),
       process.env.GATSBY_WEBPACK_LOGGING?.split(`,`)?.includes(stage) &&
         new WebpackLoggingPlugin(program.directory, report, program.verbose),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: partytown.libDirPath(),
+            to: path.join(program.directory, `public`, `~partytown`),
+          },
+        ],
+      }),
     ].filter(Boolean)
 
     switch (stage) {

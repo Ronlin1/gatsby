@@ -18,6 +18,8 @@ const asyncRequires = require(`$virtual/async-requires`)
 const { version: gatsbyVersion } = require(`gatsby/package.json`)
 const { grabMatchParams } = require(`./find-path`)
 
+const { Partytown } = require(`@builder.io/partytown/react`)
+
 const chunkMapping = require(`../public/chunk-map.json`)
 
 // we want to force posix-style joins, so Windows doesn't produce backslashes for urls
@@ -326,6 +328,10 @@ export default async function staticPage({
         />
       )
     })
+
+    headComponents.push(
+      <Partytown key="partytown" forward={[`dataLayer.push`]} />
+    )
 
     if (pageData && !inlinePageData) {
       headComponents.push(
